@@ -1,0 +1,376 @@
+Language: Cpp # Specifies that these formatting rules apply to C++ code.
+
+# BasedOnStyle: LLVM  # The base style configuration; uses LLVM's style as a starting point.
+
+AccessModifierOffset: -2 # Indent access modifiers (public, private, protected) by -2 spaces.
+
+AlignAfterOpenBracket: Align # Align parameters after an open bracket.
+
+AlignArrayOfStructures: None # Do not align array of structures.
+
+AlignConsecutiveAssignments: # Settings for aligning consecutive assignments.
+  Enabled: false # Do not align assignments.
+  AcrossEmptyLines: false # Do not align assignments across empty lines.
+  AcrossComments: false # Do not align assignments across comments.
+  AlignCompound: false # Do not align compound assignments like +=.
+  PadOperators: true # Add padding spaces around operators (e.g., a = b + c).
+
+AlignConsecutiveBitFields: # Settings for aligning consecutive bit fields.
+  Enabled: false # Do not align bit fields.
+  AcrossEmptyLines: false # Same as above.
+  AcrossComments: false # Same as above.
+  AlignCompound: false # Same as above.
+  PadOperators: false # Do not add spaces around operators.
+
+AlignConsecutiveDeclarations: # Settings for aligning consecutive declarations.
+  Enabled: false # Do not align consecutive declarations.
+  AcrossEmptyLines: false # Same as above.
+  AcrossComments: false # Same as above.
+  AlignCompound: false # Same as above.
+  PadOperators: false # Do not add spaces around operators in declarations.
+
+AlignConsecutiveMacros: # Settings for aligning macros.
+  Enabled: false # Do not align macros.
+  AcrossEmptyLines: false # Same as above.
+  AcrossComments: false # Same as above.
+  AlignCompound: false # Same as above.
+  PadOperators: false # Same as above.
+
+AlignConsecutiveShortCaseStatements: # Settings for aligning case statements.
+  Enabled: false # Do not align short case statements.
+  AcrossEmptyLines: false # Same as above.
+  AcrossComments: false # Same as above.
+  AlignCaseColons: false # Do not align colons in case statements.
+
+AlignEscapedNewlines: Right # Align escaped newlines (\) to the right.
+
+AlignOperands: Align # Align operands in expressions.
+
+AlignTrailingComments: # Settings for aligning trailing comments.
+  Kind: Always # Always align trailing comments.
+  OverEmptyLines: 0 # Do not align over empty lines.
+
+AllowAllArgumentsOnNextLine: true # Allow all function arguments on the next line.
+
+AllowAllParametersOfDeclarationOnNextLine: true # Allow all parameters of declarations on the next line.
+
+AllowShortBlocksOnASingleLine: Never # Never allow short blocks on a single line.
+
+AllowShortCaseLabelsOnASingleLine: false # Do not allow case labels on a single line.
+
+AllowShortEnumsOnASingleLine: true # Allow short enums on a single line.
+
+AllowShortFunctionsOnASingleLine: All # Allow short functions to be placed on a single line.
+
+AllowShortIfStatementsOnASingleLine: Never # Never allow short if-statements on a single line.
+
+AllowShortLambdasOnASingleLine: All # Allow short lambda expressions on a single line.
+
+AllowShortLoopsOnASingleLine: false # Do not allow short loops on a single line.
+
+AlwaysBreakAfterDefinitionReturnType: None # Do not force breaking after return type in definitions.
+
+AlwaysBreakAfterReturnType: None # Do not force breaking after return type in declarations.
+
+AlwaysBreakBeforeMultilineStrings: false # Do not force breaking before multiline strings.
+
+AlwaysBreakTemplateDeclarations: MultiLine # Force breaking template declarations to multiple lines.
+
+AttributeMacros: # List of macros that are treated as attributes.
+  - __capability
+
+BinPackArguments: true # Allow arguments to be bin-packed (fit as many as possible on one line).
+
+BinPackParameters: true # Same as above but for function parameters.
+
+BitFieldColonSpacing: Both # Add space before and after the colon in bitfields.
+
+BraceWrapping: # Settings for brace wrapping.
+  AfterCaseLabel: false # Do not wrap braces after a case label.
+  AfterClass: false # Do not wrap braces after class definitions.
+  AfterControlStatement: Never # Never wrap braces after control statements.
+  AfterEnum: false # Do not wrap braces after enums.
+  AfterExternBlock: false # Do not wrap braces after extern blocks.
+  AfterFunction: false # Do not wrap braces after function definitions.
+  AfterNamespace: false # Do not wrap braces after namespace declarations.
+  AfterObjCDeclaration: false # For Objective-C, do not wrap braces after declarations.
+  AfterStruct: false # Do not wrap braces after struct definitions.
+  AfterUnion: false # Do not wrap braces after union definitions.
+  BeforeCatch: false # Do not wrap braces before catch blocks.
+  BeforeElse: false # Do not wrap braces before else blocks.
+  BeforeLambdaBody: false # Do not wrap braces before lambda bodies.
+  BeforeWhile: false # Do not wrap braces before while loops.
+  IndentBraces: false # Do not indent braces.
+  SplitEmptyFunction: true # Split empty function braces onto separate lines.
+  SplitEmptyRecord: true # Split empty record (struct/class) braces onto separate lines.
+  SplitEmptyNamespace: true # Split empty namespace braces onto separate lines.
+
+BreakAfterAttributes: Never # Do not break after attributes.
+
+BreakArrays: true # Break arrays into multiple lines when necessary.
+
+BreakBeforeBinaryOperators: None # Place binary operators at the end of the line.
+
+BreakBeforeConceptDeclarations: Always # Break before concept declarations.
+
+BreakBeforeBraces: Attach # Attach opening braces on the same line.
+
+BreakBeforeInlineASMColon: OnlyMultiline # Break before inline assembly colon only if multiline.
+
+BreakBeforeTernaryOperators: true # Break before ternary operators.
+
+BreakConstructorInitializers: BeforeColon # Break before the colon in constructor initializers.
+
+BreakInheritanceList: BeforeColon # Break before the colon in inheritance lists.
+
+BreakStringLiterals: true # Break string literals if they exceed the column limit.
+
+ColumnLimit: 80 # Maximum column width for lines.
+
+# ... (The rest of the file follows similar patterns.)
+
+CommentPragmas: "^ IWYU pragma:"
+CompactNamespaces: false # Do not combine namespaces into a single line (e.g., `namespace A::B`).
+
+ConstructorInitializerIndentWidth: 4 # Indentation width for constructor initializer lists.
+
+ContinuationIndentWidth: 4 # Indentation width for lines that wrap.
+
+Cpp11BracedListStyle: true # Format braced lists in C++11 style (e.g., `{1, 2, 3}`).
+
+DerivePointerAlignment: false # Do not automatically determine pointer alignment from code style.
+
+DisableFormat: false # Do not disable formatting. Ensures clang-format processes the entire file.
+
+EmptyLineAfterAccessModifier: Never # Do not add empty lines after access modifiers (public/private).
+
+EmptyLineBeforeAccessModifier: LogicalBlock # Add empty lines only when it separates logical blocks.
+
+ExperimentalAutoDetectBinPacking: false # Do not auto-detect bin-packing for arguments or parameters.
+
+FixNamespaceComments: true # Ensure namespace closing comments are added (e.g., `} // namespace A`).
+
+ForEachMacros: # List of macros treated like loops for formatting purposes.
+  - foreach
+  - Q_FOREACH
+  - BOOST_FOREACH
+
+IfMacros: # List of macros treated like if-statements for formatting.
+  - KJ_IF_MAYBE
+
+IncludeBlocks: Preserve # Preserve the structure of include blocks (no regrouping).
+
+IncludeCategories: # Specify include ordering rules.
+  - Regex: '^"(llvm|llvm-c|clang|clang-c)/' # LLVM-related includes first.
+    Priority: 2
+    SortPriority: 0
+    CaseSensitive: false
+  - Regex: '^(<|"(gtest|gmock|isl|json)/)' # Test-related includes next.
+    Priority: 3
+    SortPriority: 0
+    CaseSensitive: false
+  - Regex: ".*" # All other includes last.
+    Priority: 1
+    SortPriority: 0
+    CaseSensitive: false
+
+IncludeIsMainRegex: "(Test)?$" # Regex to identify the main header file in a source file.
+
+IncludeIsMainSourceRegex: "" # Empty regex for main source identification.
+
+IndentAccessModifiers: false # Do not indent access modifiers.
+
+IndentCaseBlocks: false # Do not indent blocks inside case labels.
+
+IndentCaseLabels: false # Do not indent case labels.
+
+IndentExternBlock: AfterExternBlock # Indent after `extern` blocks.
+
+IndentGotoLabels: true # Indent `goto` labels for readability.
+
+IndentPPDirectives: None # Do not indent preprocessor directives like `#include`.
+
+IndentRequiresClause: true # Indent the requires clause in concepts or templates.
+
+IndentWidth: 2 # The number of spaces per indentation level.
+
+IndentWrappedFunctionNames: false # Do not indent wrapped function names.
+
+InsertBraces: false # Do not insert braces for single-line statements automatically.
+
+InsertNewlineAtEOF: false # Do not enforce a newline at the end of the file.
+
+InsertTrailingCommas: None # Do not add trailing commas in lists or parameter packs.
+
+IntegerLiteralSeparator: # Configuration for adding separators in numeric literals.
+  Binary: 0 # No separator in binary literals.
+  BinaryMinDigits: 0 # Minimum digits for a binary literal to have separators.
+  Decimal: 0 # No separator in decimal literals.
+  DecimalMinDigits: 0 # Minimum digits for a decimal literal to have separators.
+  Hex: 0 # No separator in hexadecimal literals.
+  HexMinDigits: 0 # Minimum digits for a hexadecimal literal to have separators.
+
+JavaScriptQuotes: Leave # Do not change quotes in JavaScript strings.
+
+JavaScriptWrapImports: true # Allow wrapping JavaScript import statements.
+
+KeepEmptyLinesAtTheStartOfBlocks: true # Preserve empty lines at the start of code blocks.
+
+KeepEmptyLinesAtEOF: false # Do not preserve empty lines at the end of a file.
+
+LambdaBodyIndentation: Signature # Indent lambda bodies relative to their signature.
+
+LineEnding: DeriveLF # Automatically determine line endings (e.g., LF or CRLF).
+
+MacroBlockBegin: "" # No specific macro for marking the beginning of a block.
+
+MacroBlockEnd: "" # No specific macro for marking the end of a block.
+
+MaxEmptyLinesToKeep: 1 # Keep at most 1 empty line in a row.
+
+NamespaceIndentation: None # Do not indent the contents of namespaces.
+
+ObjCBinPackProtocolList: Auto # Automatically decide packing for Objective-C protocols.
+
+ObjCBlockIndentWidth: 2 # Indent by 2 spaces inside Objective-C blocks.
+
+ObjCBreakBeforeNestedBlockParam: true # Break before nested block parameters in Objective-C.
+
+ObjCSpaceAfterProperty: false # Do not add space after Objective-C property declarations.
+
+ObjCSpaceBeforeProtocolList: true # Add space before Objective-C protocol lists.
+
+PackConstructorInitializers: BinPack # Bin-pack constructor initializers if possible.
+
+PenaltyBreakAssignment: 2 # Penalty for breaking assignments onto multiple lines.
+
+PenaltyBreakBeforeFirstCallParameter: 19 # Penalty for breaking before the first parameter in a function call.
+
+PenaltyBreakComment: 300 # Penalty for breaking comments.
+
+PenaltyBreakFirstLessLess: 120 # Penalty for breaking `<<` operators.
+
+PenaltyBreakOpenParenthesis: 0 # No penalty for breaking before an open parenthesis.
+
+PenaltyBreakString: 1000 # High penalty for breaking strings onto multiple lines.
+
+PenaltyBreakTemplateDeclaration: 10 # Penalty for breaking template declarations.
+
+PenaltyExcessCharacter: 1000000 # Very high penalty for exceeding the column limit.
+
+PenaltyIndentedWhitespace: 0 # No penalty for indented whitespace.
+
+PenaltyReturnTypeOnItsOwnLine: 60 # Penalty for placing the return type on its own line.
+
+PointerAlignment: Right # Align pointers to the right of the type (e.g., `int* ptr`).
+
+PPIndentWidth: -1 # Do not indent preprocessor directives relative to their surrounding code.
+
+QualifierAlignment: Leave # Do not adjust the alignment of qualifiers (e.g., `const`).
+
+ReferenceAlignment: Pointer # Align references the same way as pointers.
+
+ReflowComments: true # Reflow comments to fit within the column limit.
+
+RemoveBracesLLVM: false # Do not remove braces in LLVM's specific style.
+
+RemoveParentheses: Leave # Do not remove parentheses.
+
+RemoveSemicolon: false # Do not remove semicolons after statements.
+
+RequiresClausePosition: OwnLine # Place `requires` clauses on their own line.
+
+RequiresExpressionIndentation: OuterScope # Indent `requires` expressions relative to the outer scope.
+
+SeparateDefinitionBlocks: Leave # Do not enforce splitting or joining definition blocks.
+
+ShortNamespaceLines: 1 # Allow short namespaces on a single line if they are 1 line long.
+
+SortIncludes: CaseSensitive # Sort includes in a case-sensitive manner.
+
+SortJavaStaticImport: Before # Place static Java imports before other imports.
+
+SortUsingDeclarations: LexicographicNumeric # Sort `using` declarations lexicographically.
+
+SpaceAfterCStyleCast: false # Do not add a space after C-style casts.
+
+SpaceAfterLogicalNot: false # Do not add space after logical NOT (`!`).
+
+SpaceAfterTemplateKeyword: true # Add a space after the `template` keyword.
+
+SpaceAroundPointerQualifiers: Default # Default behavior for pointer qualifiers.
+
+SpaceBeforeAssignmentOperators: true # Add space before assignment operators.
+
+SpaceBeforeCaseColon: false # Do not add space before colons in case labels.
+
+SpaceBeforeCpp11BracedList: false # Do not add space before C++11 braced lists.
+
+SpaceBeforeCtorInitializerColon: true # Add space before constructor initializer colons.
+
+SpaceBeforeInheritanceColon: true # Add space before inheritance colons.
+
+SpaceBeforeJsonColon: false # Do not add space before colons in JSON-like structures.
+
+SpaceBeforeParens: ControlStatements # Add space before parentheses in control statements.
+
+SpaceBeforeParensOptions: # Detailed settings for space before parentheses.
+  AfterControlStatements: true # Add space after control statements (e.g., `if`, `while`).
+  AfterForeachMacros: true # Add space after foreach macros.
+  AfterFunctionDefinitionName: false # Do not add space after function definition names.
+  AfterFunctionDeclarationName: false # Do not add space after function declaration names.
+  AfterIfMacros: true # Add space after macros that act as if-statements.
+  AfterOverloadedOperator: false # Do not add space after overloaded operators.
+  AfterRequiresInClause: false # Do not add space after `requires` in a clause.
+  AfterRequiresInExpression: false # Do not add space after `requires` in an expression.
+  BeforeNonEmptyParentheses: false # Do not add space before non-empty parentheses.
+
+SpaceBeforeRangeBasedForLoopColon: true # Add space before the colon in range-based for loops.
+
+SpaceBeforeSquareBrackets: false # Do not add space before square brackets.
+
+SpaceInEmptyBlock: false # Do not add space in empty blocks (e.g., `{}`).
+
+SpacesBeforeTrailingComments: 1 # Add one space before trailing comments.
+
+SpacesInAngles: Never # Do not add spaces inside angle brackets.
+
+SpacesInContainerLiterals: true # Add spaces inside container literals (e.g., `{ 1, 2 }`).
+
+SpacesInLineCommentPrefix: # Control spacing in line comment prefixes.
+  Minimum: 1 # Require at least 1 space after the `//`.
+  Maximum: -1 # No maximum limit.
+
+SpacesInParens: Never # Do not add spaces inside parentheses.
+
+SpacesInParensOptions: # Detailed options for spaces inside parentheses.
+  InCStyleCasts: false # Do not add space in C-style casts.
+  InConditionalStatements: false # Do not add space in conditional statements.
+  InEmptyParentheses: false # Do not add space in empty parentheses.
+  Other: false # No space in other cases.
+
+SpacesInSquareBrackets: false # Do not add spaces inside square brackets.
+
+Standard: Latest # Use the latest C++ standard for formatting.
+
+StatementAttributeLikeMacros: # List of macros treated as statement-like attributes.
+  - Q_EMIT
+
+StatementMacros: # List of macros treated as statements.
+  - Q_UNUSED
+  - QT_REQUIRE_VERSION
+
+TabWidth: 8 # Set tab width to 8 spaces.
+
+UseTab: Never # Always use spaces instead of tabs.
+
+VerilogBreakBetweenInstancePorts: true # Break between instance ports in Verilog.
+
+WhitespaceSensitiveMacros: # List of macros sensitive to whitespace.
+  - BOOST_PP_STRINGIZE
+  - CF_SWIFT_NAME
+  - NS_SWIFT_NAME
+  - PP_STRINGIZE
+  - STRINGIZE
+---
+
