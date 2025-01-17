@@ -1,6 +1,6 @@
-# MLIR Hello Dialect ![nightly build status](https://github.com/Lewuathe/mlir-hello/actions/workflows/nightly-build.yml/badge.svg)
+# MLIR MXNet Dialect
 
-This is the minimal example to look into the way to implement the hello-world kind of program with MLIR. The basic code structure is borrowed from [standalone](https://github.com/llvm/llvm-project/tree/main/mlir/examples/standalone) and [Toy language](https://github.com/llvm/llvm-project/tree/main/mlir/examples/toy) in LLVM project.
+This is the minimal example to look into the way to implement the MxNet toolkit kind of program with MLIR. The basic code structure is borrowed from [standalone](https://github.com/llvm/llvm-project/tree/main/mlir/examples/standalone) and [Toy language](https://github.com/llvm/llvm-project/tree/main/mlir/examples/toy) in LLVM project.
 
 We constantly check the compatibility with the latest LLVM/MLIR in [the nightly build](https://github.com/Lewuathe/mlir-hello/actions/workflows/nightly-build.yml). The status of the build is shown in the badge above.
 
@@ -62,59 +62,6 @@ to the operation as an attribute. For example:
   { value = dense<[[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]> : tensor<2x3xf64> }
   : () -> tensor<2x3xf64>
 ```
-
-Traits: AlwaysSpeculatableImplTrait
-
-Interfaces: ConditionallySpeculatable, NoMemoryEffect (MemoryEffectOpInterface)
-
-Effects: MemoryEffects::Effect{}
-
-#### Attributes:
-
-| Attribute | MLIR Type | Description |
-| :-------: | :-------: | ----------- |
-| `value` | ::mlir::DenseElementsAttr | 64-bit float elements attribute
-
-#### Results:
-
-| Result | Description |
-| :----: | ----------- |
-&laquo;unnamed&raquo; | tensor of 64-bit float values
-
-### `hello.print` (::hello::PrintOp)
-
-print operation
-
-
-Syntax:
-
-```
-operation ::= `hello.print` $input attr-dict `:` type($input)
-```
-
-The "print" builtin operation prints a given input tensor, and produces
-no results.
-
-Traits: AlwaysSpeculatableImplTrait
-
-Interfaces: ConditionallySpeculatable, NoMemoryEffect (MemoryEffectOpInterface)
-
-Effects: MemoryEffects::Effect{}
-
-#### Operands:
-
-| Operand | Description |
-| :-----: | ----------- |
-| `input` | tensor of 64-bit float values or memref of 64-bit float values
-
-### `hello.world` (::hello::WorldOp)
-
-print Hello, World
-
-The "world" operation prints "Hello, World", and produces
-no results.
-
-Traits: AlwaysSpeculatableImplTrait
 
 Interfaces: ConditionallySpeculatable, NoMemoryEffect (MemoryEffectOpInterface)
 
