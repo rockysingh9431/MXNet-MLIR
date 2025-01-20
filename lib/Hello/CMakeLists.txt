@@ -1,9 +1,12 @@
 add_mlir_dialect_library(MLIRHello
-		MxNetDialect.cpp
-		MxNetOps.cpp
+		HelloDialect.cpp
+		HelloOps.cpp
+		LowerToAffine.cpp
+		LowerToLLVM.cpp
+		LowerToTOSA.cpp
 
         ADDITIONAL_HEADER_DIRS
-        ${PROJECT_SOURCE_DIR}/include/mxNet
+        ${PROJECT_SOURCE_DIR}/include/Hello
 
         DEPENDS
         MLIRHelloOpsIncGen

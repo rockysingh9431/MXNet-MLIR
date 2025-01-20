@@ -15,15 +15,17 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef HELLO_HELLODIALECT_H
-#define HELLO_HELLODIALECT_H
+#ifndef MLIR_HELLO_PASSES_H
+#define MLIR_HELLO_PASSES_H
 
-#include "mlir/IR/BuiltinDialect.h"
-#include "mlir/IR/BuiltinOps.h"
-#include "mlir/IR/BuiltinTypes.h"
-#include "mlir/IR/Dialect.h"
-#include "mlir/Interfaces/SideEffectInterfaces.h"
+#include <memory>
 
-#include "Hello/MxNetOpsDialect.h.inc"
+#include "mlir/Pass/Pass.h"
 
-#endif // HELLO_HELLODIALECT_H
+namespace hello {
+std::unique_ptr<mlir::Pass> createLowerToAffinePass();
+std::unique_ptr<mlir::Pass> createLowerToTOSAPass();
+std::unique_ptr<mlir::Pass> createLowerToLLVMPass();
+} // namespace hello
+
+#endif // MLIR_HELLO_PASSES_H

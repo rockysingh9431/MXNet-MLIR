@@ -8,7 +8,7 @@ configure_lit_site_cfg(
 set(HELLO_TEST_DEPENDS
         FileCheck count not
         mlir-opt
-        hello-opt
+        MxNet-opt
         )
 
 add_lit_testsuite(check-hello "Running the hello regression tests"

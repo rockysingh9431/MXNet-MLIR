@@ -1,1 +1,1 @@
-add_subdirectory(mxNet)
+add_subdirectory(Hello)
