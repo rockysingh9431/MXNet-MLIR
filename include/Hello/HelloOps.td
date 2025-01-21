@@ -53,9 +53,37 @@ def WorldOp : Hello_Op<"world", [Pure]> {
 def AddOp : Hello_Op<"add",[Pure]>{
   let summary="add two tensors element-wise";
   let description=[{
-    Take two tensors as a input and perform addition of tensors element-wise and produce a single tensor as a result.
+    add two tensors element wise.
   }];
   let arguments = (ins AnyTensor:$lhs,AnyTensor:$rhs);
   let results = (outs AnyTensor:$result);
+}
+
+def AbsOp : Hello_Op<"abs",[Pure]>{
+  let summary="perform absolute operation on single input value";
+  let description=[{
+    perform absolute operation on single tensor input
+  }];
+
+  let arguments=(ins AnyTensor:$input);
+  let results = (outs AnyTensor:$result);
+}
+
+def ReciprocalSqrtOp : Hello_Op<"rsqrt",[Pure]>{
+  let summary="perform operation to find reciprocal of square root";
+  let description=[{
+    perform reciprocal of a square root on single tensor input
+  }];
+
+  let arguments=(ins AnyTensor:$input);
+  let results = (outs AnyTensor:$result);
+}
+
+def MulOp : Hello_Op<"mul",[Pure]>{
+  let summary="Perform multiply operation";
+  let description=[{perform multiply of two tensors element-wise and return a reuslting tensor}];
+
+  let arguments=(ins AnyTensor:$lhs, AnyTensor:$rhs);
+  let results=(outs AnyTensor:$result);
 }
 #endif // HELLO_OPS

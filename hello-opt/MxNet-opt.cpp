@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+#include "mlir/Conversion/TosaToArith/TosaToArith.h"
 #include "mlir/ExecutionEngine/ExecutionEngine.h"
 #include "mlir/ExecutionEngine/OptUtils.h"
 #include "mlir/IR/MLIRContext.h"
@@ -26,7 +27,6 @@
 #include "mlir/Target/LLVMIR/Dialect/Builtin/BuiltinToLLVMIRTranslation.h"
 #include "mlir/Target/LLVMIR/Dialect/LLVMIR/LLVMToLLVMIRTranslation.h"
 #include "mlir/Target/LLVMIR/Export.h"
-
 #include "llvm/IR/Module.h"
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/SourceMgr.h"
@@ -112,9 +112,12 @@ int loadAndProcessMLIR(mlir::MLIRContext &context,
   if (mlir::failed(mlir::applyPassManagerCLOptions(passManager)))
     return 4;
 
-  passManager.addPass(hello::createLowerToAffinePass());
-  passManager.addPass(hello::createLowerToTOSAPass());
+  // passManager.addPass(hello::createLowerToAffinePass());
   // passManager.addPass(hello::createLowerToLLVMPass());
+
+  passManager.addPass(hello::createLowerToTosaPass());
+  // passManager.addPass(mlir::createConvertTosaToArith());
+  // PassManager.addpass(mlir::createConvetTosaToLinalg());
 
   if (mlir::failed(passManager.run(*module))) {
     return 4;
@@ -168,7 +171,7 @@ int main(int argc, char **argv) {
     return error;
   }
 
-  dumpLLVMIR(*module);
+  // dumpLLVMIR(*module);
   //  runJit(*module);
 
   return 0;

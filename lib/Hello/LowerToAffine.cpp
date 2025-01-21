@@ -160,10 +160,10 @@ public:
 void HelloToAffineLowerPass::runOnOperation() {
   mlir::ConversionTarget target(getContext());
 
-  // target.addIllegalDialect<hello::HelloDialect>();
-  // target.addLegalDialect<mlir::affine::AffineDialect, mlir::BuiltinDialect,
-  //                        mlir::func::FuncDialect, mlir::arith::ArithDialect,
-  //                        mlir::memref::MemRefDialect>();
+  target.addIllegalDialect<hello::HelloDialect>();
+  target.addLegalDialect<mlir::affine::AffineDialect, mlir::BuiltinDialect,
+                         mlir::func::FuncDialect, mlir::arith::ArithDialect,
+                         mlir::memref::MemRefDialect>();
   target.addDynamicallyLegalOp<hello::PrintOp>([](hello::PrintOp op) {
     return llvm::none_of(op->getOperandTypes(), [](mlir::Type type) {
       return mlir::isa<mlir::TensorType>(type);
