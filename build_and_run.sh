@@ -33,15 +33,15 @@ make lli # lli needs to be build separately for testing
 popd
 
 
-# set up mlir-hello
+# set up Mx-mlir
 mkdir build && cd build
 cmake -G Ninja .. \
   -DLLVM_DIR=$LLVM_REPO/build/lib/cmake/llvm \
   -DMLIR_DIR=$LLVM_REPO/build/lib/cmake/mlir \
 
-cmake --build . --target hello-opt
+cmake --build . --target MxNet-opt
 
 # test run
 
-./build/bin/hello-opt ./test/Hello/print.mlir > print.ll
+./build/bin/MxNet-opt ./test/MxNet/print.mlir > print.ll
 $BUILD_DIR/bin/lli print.ll

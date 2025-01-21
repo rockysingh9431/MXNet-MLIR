@@ -15,15 +15,17 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#ifndef HELLO_HELLODIALECT_H
-#define HELLO_HELLODIALECT_H
+#ifndef MXNET_MXNETOPS_H
+#define MXNET_MXNETOPS_H
 
-#include "mlir/IR/BuiltinDialect.h"
-#include "mlir/IR/BuiltinOps.h"
+#include "mlir/Bytecode/BytecodeOpInterface.h"
 #include "mlir/IR/BuiltinTypes.h"
 #include "mlir/IR/Dialect.h"
+#include "mlir/IR/OpDefinition.h"
+#include "mlir/Interfaces/FunctionInterfaces.h"
 #include "mlir/Interfaces/SideEffectInterfaces.h"
 
-#include "Hello/HelloOpsDialect.h.inc"
+#define GET_OP_CLASSES
+#include "MxNet/MxNetOps.h.inc"
 
-#endif // HELLO_HELLODIALECT_H
+#endif // MXNET_MXNETOPS_H

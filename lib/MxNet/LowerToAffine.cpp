@@ -15,9 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include "Hello/HelloDialect.h"
-#include "Hello/HelloOps.h"
-#include "Hello/HelloPasses.h"
+#include "MxNet/MxNetDialect.h"
+#include "MxNet/MxNetOps.h"
+#include "MxNet/MxNetPasses.h"
 
 #include "mlir/Dialect/Affine/IR/AffineOps.h"
 #include "mlir/Dialect/Arith/IR/Arith.h"
@@ -48,11 +48,11 @@ static mlir::Value insertAllocAndDealloc(mlir::MemRefType type,
   return alloc;
 }
 
-class ConstantOpLowering : public mlir::OpRewritePattern<hello::ConstantOp> {
-  using OpRewritePattern<hello::ConstantOp>::OpRewritePattern;
+class ConstantOpLowering : public mlir::OpRewritePattern<MxNet::ConstantOp> {
+  using OpRewritePattern<MxNet::ConstantOp>::OpRewritePattern;
 
   mlir::LogicalResult
-  matchAndRewrite(hello::ConstantOp op,
+  matchAndRewrite(MxNet::ConstantOp op,
                   mlir::PatternRewriter &rewriter) const final {
     mlir::DenseElementsAttr constantValue = op.getValue();
     mlir::Location loc = op.getLoc();
@@ -127,13 +127,13 @@ class ConstantOpLowering : public mlir::OpRewritePattern<hello::ConstantOp> {
   }
 };
 
-class PrintOpLowering : public mlir::OpConversionPattern<hello::PrintOp> {
-  using OpConversionPattern<hello::PrintOp>::OpConversionPattern;
+class PrintOpLowering : public mlir::OpConversionPattern<MxNet::PrintOp> {
+  using OpConversionPattern<MxNet::PrintOp>::OpConversionPattern;
 
   mlir::LogicalResult
-  matchAndRewrite(hello::PrintOp op, OpAdaptor adaptor,
+  matchAndRewrite(MxNet::PrintOp op, OpAdaptor adaptor,
                   mlir::ConversionPatternRewriter &rewriter) const final {
-    // We don't lower "hello.print" in this pass, but we need to update its
+    // We don't lower "MxNet.print" in this pass, but we need to update its
     // operands.
     rewriter.modifyOpInPlace(op,
                              [&] { op->setOperands(adaptor.getOperands()); });
@@ -142,11 +142,11 @@ class PrintOpLowering : public mlir::OpConversionPattern<hello::PrintOp> {
 };
 
 namespace {
-class HelloToAffineLowerPass
-    : public mlir::PassWrapper<HelloToAffineLowerPass,
+class MxNetToAffineLowerPass
+    : public mlir::PassWrapper<MxNetToAffineLowerPass,
                                mlir::OperationPass<mlir::ModuleOp>> {
 public:
-  MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID(HelloToAffineLowerPass)
+  MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID(MxNetToAffineLowerPass)
 
   void getDependentDialects(mlir::DialectRegistry &registry) const override {
     registry.insert<mlir::affine::AffineDialect, mlir::func::FuncDialect,
@@ -157,19 +157,19 @@ public:
 };
 } // namespace
 
-void HelloToAffineLowerPass::runOnOperation() {
+void MxNetToAffineLowerPass::runOnOperation() {
   mlir::ConversionTarget target(getContext());
 
-  target.addIllegalDialect<hello::HelloDialect>();
+  target.addIllegalDialect<MxNet::MxNetDialect>();
   target.addLegalDialect<mlir::affine::AffineDialect, mlir::BuiltinDialect,
                          mlir::func::FuncDialect, mlir::arith::ArithDialect,
                          mlir::memref::MemRefDialect>();
-  target.addDynamicallyLegalOp<hello::PrintOp>([](hello::PrintOp op) {
+  target.addDynamicallyLegalOp<MxNet::PrintOp>([](MxNet::PrintOp op) {
     return llvm::none_of(op->getOperandTypes(), [](mlir::Type type) {
       return mlir::isa<mlir::TensorType>(type);
     });
   });
-  target.addLegalOp<hello::WorldOp>();
+  target.addLegalOp<MxNet::WorldOp>();
 
   mlir::RewritePatternSet patterns(&getContext());
   patterns.add<ConstantOpLowering, PrintOpLowering>(&getContext());
@@ -180,6 +180,6 @@ void HelloToAffineLowerPass::runOnOperation() {
   }
 }
 
-std::unique_ptr<mlir::Pass> hello::createLowerToAffinePass() {
-  return std::make_unique<HelloToAffineLowerPass>();
+std::unique_ptr<mlir::Pass> MxNet::createLowerToAffinePass() {
+  return std::make_unique<MxNetToAffineLowerPass>();
 }

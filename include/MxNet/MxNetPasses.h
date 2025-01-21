@@ -15,9 +15,17 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include "Hello/HelloOps.h"
-#include "Hello/HelloDialect.h"
-#include "mlir/IR/OpImplementation.h"
+#ifndef MLIR_MXNET_PASSES_H
+#define MLIR_MXNET_PASSES_H
 
-#define GET_OP_CLASSES
-#include "Hello/HelloOps.cpp.inc"
+#include <memory>
+
+#include "mlir/Pass/Pass.h"
+
+namespace MxNet {
+std::unique_ptr<mlir::Pass> createLowerToTosaPass();
+std::unique_ptr<mlir::Pass> createLowerToAffinePass();
+std::unique_ptr<mlir::Pass> createLowerToLLVMPass();
+} // namespace MxNet
+
+#endif // MLIR_MXNET_PASSES_H

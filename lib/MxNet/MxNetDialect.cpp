@@ -18,36 +18,36 @@
 #include "mlir/IR/Builders.h"
 #include "mlir/IR/OpImplementation.h"
 
-#include "Hello/HelloDialect.h"
-#include "Hello/HelloOps.h"
+#include "MxNet/MxNetDialect.h"
+#include "MxNet/MxNetOps.h"
 
 using namespace mlir;
-using namespace hello;
+using namespace MxNet;
 
 //===----------------------------------------------------------------------===//
-// Hello dialect.
+// MxNet dialect.
 //===----------------------------------------------------------------------===//
 
-#include "Hello/HelloOpsDialect.cpp.inc"
+#include "MxNet/MxNetOpsDialect.cpp.inc"
 
-void HelloDialect::initialize() {
+void MxNetDialect::initialize() {
   addOperations<
 #define GET_OP_LIST
-#include "Hello/HelloOps.cpp.inc"
+#include "MxNet/MxNetOps.cpp.inc"
       >();
 }
 
-void hello::ConstantOp::build(mlir::OpBuilder &builder,
+void MxNet::ConstantOp::build(mlir::OpBuilder &builder,
                               mlir::OperationState &state, double value) {
   auto dataType = RankedTensorType::get({}, builder.getF64Type());
   auto dataAttribute = DenseElementsAttr::get(dataType, value);
-  hello::ConstantOp::build(builder, state, dataType, dataAttribute);
+  MxNet::ConstantOp::build(builder, state, dataType, dataAttribute);
 }
 
-mlir::Operation *HelloDialect::materializeConstant(mlir::OpBuilder &builder,
+mlir::Operation *MxNetDialect::materializeConstant(mlir::OpBuilder &builder,
                                                    mlir::Attribute value,
                                                    mlir::Type type,
                                                    mlir::Location loc) {
-  return builder.create<hello::ConstantOp>(
+  return builder.create<MxNet::ConstantOp>(
       loc, type, mlir::cast<mlir::DenseElementsAttr>(value));
 }

@@ -33,12 +33,12 @@
 #include "llvm/Support/TargetSelect.h"
 #include "llvm/Support/ToolOutputFile.h"
 
-#include "Hello/HelloDialect.h"
-#include "Hello/HelloPasses.h"
+#include "MxNet/MxNetDialect.h"
+#include "MxNet/MxNetPasses.h"
 
 namespace cl = llvm::cl;
 static cl::opt<std::string> inputFilename(cl::Positional,
-                                          cl::desc("<input hello file>"),
+                                          cl::desc("<input mxnet file>"),
                                           cl::init("-"),
                                           cl::value_desc("filename"));
 
@@ -115,7 +115,7 @@ int loadAndProcessMLIR(mlir::MLIRContext &context,
   // passManager.addPass(hello::createLowerToAffinePass());
   // passManager.addPass(hello::createLowerToLLVMPass());
 
-  passManager.addPass(hello::createLowerToTosaPass());
+  passManager.addPass(MxNet::createLowerToTosaPass());
   // passManager.addPass(mlir::createConvertTosaToArith());
   // PassManager.addpass(mlir::createConvetTosaToLinalg());
 
@@ -161,9 +161,9 @@ int main(int argc, char **argv) {
   mlir::registerMLIRContextCLOptions();
   mlir::registerPassManagerCLOptions();
 
-  cl::ParseCommandLineOptions(argc, argv, "Hello compiler\n");
+  cl::ParseCommandLineOptions(argc, argv, "MxNet compiler\n");
   mlir::MLIRContext context;
-  context.getOrLoadDialect<hello::HelloDialect>();
+  context.getOrLoadDialect<MxNet::MxNetDialect>();
   context.getOrLoadDialect<mlir::func::FuncDialect>();
 
   mlir::OwningOpRef<mlir::ModuleOp> module;

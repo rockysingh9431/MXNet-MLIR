@@ -15,9 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-#include "Hello/HelloDialect.h"
-#include "Hello/HelloOps.h"
-#include "Hello/HelloPasses.h"
+#include "MxNet/MxNetDialect.h"
+#include "MxNet/MxNetOps.h"
+#include "MxNet/MxNetPasses.h"
 
 #include "mlir/Conversion/AffineToStandard/AffineToStandard.h"
 #include "mlir/Conversion/ArithToLLVM/ArithToLLVM.h"
@@ -41,17 +41,17 @@
 
 #include <iostream>
 
-namespace hello {
+namespace MxNet {
 class PrintOpLowering : public mlir::ConversionPattern {
 public:
   explicit PrintOpLowering(mlir::MLIRContext *context)
-      : mlir::ConversionPattern(hello::PrintOp::getOperationName(), 1,
+      : mlir::ConversionPattern(MxNet::PrintOp::getOperationName(), 1,
                                 context) {}
 
   mlir::LogicalResult
   matchAndRewrite(mlir::Operation *op, mlir::ArrayRef<mlir::Value> operands,
                   mlir::ConversionPatternRewriter &rewriter) const override {
-    auto *context = rewriter.getContext();                
+    auto *context = rewriter.getContext();
     auto memRefType = mlir::cast<mlir::MemRefType>(*op->operand_type_begin());
     auto memRefShape = memRefType.getShape();
     auto loc = op->getLoc();
@@ -92,7 +92,7 @@ public:
     }
 
     // Generate a call to printf for the current element of the loop.
-    auto printOp = mlir::cast<hello::PrintOp>(op);
+    auto printOp = mlir::cast<MxNet::PrintOp>(op);
     auto elementLoad =
         rewriter.create<mlir::memref::LoadOp>(loc, printOp.getInput(), loopIvs);
     rewriter.create<mlir::LLVM::CallOp>(
@@ -161,7 +161,7 @@ private:
 class WorldOpLowering : public mlir::ConversionPattern {
 public:
   explicit WorldOpLowering(mlir::MLIRContext *context)
-      : mlir::ConversionPattern(hello::WorldOp::getOperationName(), 1,
+      : mlir::ConversionPattern(MxNet::WorldOp::getOperationName(), 1,
                                 context) {}
 
   mlir::LogicalResult
@@ -175,8 +175,8 @@ public:
         loc, rewriter, "hello_word_string",
         mlir::StringRef("Hello, World! \n\0", 16), parentModule);
 
-    rewriter.create<mlir::LLVM::CallOp>(loc, getPrintfType(context),
-                                        printfRef, helloWorld);
+    rewriter.create<mlir::LLVM::CallOp>(loc, getPrintfType(context), printfRef,
+                                        helloWorld);
     rewriter.eraseOp(op);
     return mlir::success();
   }
@@ -234,14 +234,14 @@ private:
         global.getType(), globalPtr, mlir::ArrayRef<mlir::Value>({cst0, cst0}));
   }
 };
-} // namespace hello
+} // namespace MxNet
 
 namespace {
-class HelloToLLVMLoweringPass
-    : public mlir::PassWrapper<HelloToLLVMLoweringPass,
+class MxNetToLLVMLoweringPass
+    : public mlir::PassWrapper<MxNetToLLVMLoweringPass,
                                mlir::OperationPass<mlir::ModuleOp>> {
 public:
-  MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID(HelloToLLVMLoweringPass)
+  MLIR_DEFINE_EXPLICIT_INTERNAL_INLINE_TYPE_ID(MxNetToLLVMLoweringPass)
   void getDependentDialects(mlir::DialectRegistry &registry) const override {
     registry.insert<mlir::LLVM::LLVMDialect, mlir::scf::SCFDialect,
                     mlir::cf::ControlFlowDialect>();
@@ -251,7 +251,7 @@ public:
 };
 } // namespace
 
-void HelloToLLVMLoweringPass::runOnOperation() {
+void MxNetToLLVMLoweringPass::runOnOperation() {
   mlir::LLVMConversionTarget target(getContext());
   target.addLegalOp<mlir::ModuleOp>();
 
@@ -267,7 +267,7 @@ void HelloToLLVMLoweringPass::runOnOperation() {
                                                         patterns);
   populateFuncToLLVMConversionPatterns(typeConverter, patterns);
 
-  patterns.add<hello::PrintOpLowering, hello::WorldOpLowering>(&getContext());
+  patterns.add<MxNet::PrintOpLowering, MxNet::WorldOpLowering>(&getContext());
 
   auto module = getOperation();
   if (failed(applyFullConversion(module, target, std::move(patterns)))) {
@@ -275,6 +275,6 @@ void HelloToLLVMLoweringPass::runOnOperation() {
   }
 }
 
-std::unique_ptr<mlir::Pass> hello::createLowerToLLVMPass() {
-  return std::make_unique<HelloToLLVMLoweringPass>();
+std::unique_ptr<mlir::Pass> MxNet::createLowerToLLVMPass() {
+  return std::make_unique<MxNetToLLVMLoweringPass>();
 }

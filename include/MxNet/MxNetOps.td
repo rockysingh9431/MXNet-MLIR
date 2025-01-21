@@ -1,17 +1,17 @@
-#ifndef HELLO_OPS
-#define HELLO_OPS
+#ifndef MXNET_OPS
+#define MXNET_OPS
 
-include "HelloDialect.td"
+include "MxNetDialect.td"
 include "mlir/Interfaces/SideEffectInterfaces.td"
 
-def ConstantOp : Hello_Op<"constant", [Pure]> {
+def ConstantOp : MxNet_Op<"constant", [Pure]> {
   let summary = "constant";
   let description = [{
     Constant operation turns a literal into an SSA value. The data is attached
     to the operation as an attribute. For example:
 
     ```mlir
-      %0 = "hello.constant"()
+      %0 = "MxNet.constant"()
       { value = dense<[[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]> : tensor<2x3xf64> }
       : () -> tensor<2x3xf64>
     ```
@@ -29,7 +29,7 @@ def ConstantOp : Hello_Op<"constant", [Pure]> {
   let results = (outs F64Tensor);
 }
 
-def PrintOp : Hello_Op<"print", [Pure]> {
+def PrintOp : MxNet_Op<"print", [Pure]> {
     let summary = "print operation";
     let description = [{
         The "print" builtin operation prints a given input tensor, and produces
@@ -42,7 +42,7 @@ def PrintOp : Hello_Op<"print", [Pure]> {
     let assemblyFormat = "$input attr-dict `:` type($input)";
 }
 
-def WorldOp : Hello_Op<"world", [Pure]> {
+def WorldOp : MxNet_Op<"world", [Pure]> {
     let summary = "print Hello, World";
     let description = [{
         The "world" operation prints "Hello, World", and produces
@@ -50,7 +50,7 @@ def WorldOp : Hello_Op<"world", [Pure]> {
     }];
 }
 
-def AddOp : Hello_Op<"add",[Pure]>{
+def AddOp : MxNet_Op<"add",[Pure]>{
   let summary="add two tensors element-wise";
   let description=[{
     add two tensors element wise.
@@ -59,7 +59,7 @@ def AddOp : Hello_Op<"add",[Pure]>{
   let results = (outs AnyTensor:$result);
 }
 
-def AbsOp : Hello_Op<"abs",[Pure]>{
+def AbsOp : MxNet_Op<"abs",[Pure]>{
   let summary="perform absolute operation on single input value";
   let description=[{
     perform absolute operation on single tensor input
@@ -69,7 +69,7 @@ def AbsOp : Hello_Op<"abs",[Pure]>{
   let results = (outs AnyTensor:$result);
 }
 
-def ReciprocalSqrtOp : Hello_Op<"rsqrt",[Pure]>{
+def ReciprocalSqrtOp : MxNet_Op<"rsqrt",[Pure]>{
   let summary="perform operation to find reciprocal of square root";
   let description=[{
     perform reciprocal of a square root on single tensor input
@@ -78,12 +78,4 @@ def ReciprocalSqrtOp : Hello_Op<"rsqrt",[Pure]>{
   let arguments=(ins AnyTensor:$input);
   let results = (outs AnyTensor:$result);
 }
-
-def MulOp : Hello_Op<"mul",[Pure]>{
-  let summary="Perform multiply operation";
-  let description=[{perform multiply of two tensors element-wise and return a reuslting tensor}];
-
-  let arguments=(ins AnyTensor:$lhs, AnyTensor:$rhs);
-  let results=(outs AnyTensor:$result);
-}
-#endif // HELLO_OPS
+#endif // MXNET_OPS

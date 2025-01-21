@@ -1,6 +1,6 @@
-#include "Hello/HelloDialect.h"
-#include "Hello/HelloOps.h"
-#include "Hello/HelloPasses.h"
+#include "MxNet/MxNetDialect.h"
+#include "MxNet/MxNetOps.h"
+#include "MxNet/MxNetPasses.h"
 
 #include "mlir/Dialect/Affine/IR/AffineOps.h"
 #include "mlir/Dialect/Arith/IR/Arith.h"
@@ -21,11 +21,11 @@ using namespace mlir;
 // Lowering of reciprocal of squareroot to tosa dialect
 
 class ReciprocalSqrtOpLowering
-    : public OpRewritePattern<hello::ReciprocalSqrtOp> {
+    : public OpRewritePattern<MxNet::ReciprocalSqrtOp> {
 public:
-  using OpRewritePattern<hello::ReciprocalSqrtOp>::OpRewritePattern;
+  using OpRewritePattern<MxNet::ReciprocalSqrtOp>::OpRewritePattern;
 
-  LogicalResult matchAndRewrite(hello::ReciprocalSqrtOp op,
+  LogicalResult matchAndRewrite(MxNet::ReciprocalSqrtOp op,
                                 PatternRewriter &rewriter) const override {
     // Fetch operand
     Value input = op.getInput();
@@ -47,11 +47,11 @@ public:
   }
 };
 // Absolution operation lowering to tosa dialect
-class AbsOpLowering : public OpRewritePattern<hello::AbsOp> {
+class AbsOpLowering : public OpRewritePattern<MxNet::AbsOp> {
 public:
-  using OpRewritePattern<hello::AbsOp>::OpRewritePattern;
+  using OpRewritePattern<MxNet::AbsOp>::OpRewritePattern;
 
-  LogicalResult matchAndRewrite(hello::AbsOp op,
+  LogicalResult matchAndRewrite(MxNet::AbsOp op,
                                 PatternRewriter &rewriter) const override {
     // Fetch operand
     Value input = op.getInput();
@@ -73,11 +73,11 @@ public:
 };
 
 // Pattern to lower custom::AddOp to tosa.add
-class AddOpLowering : public OpRewritePattern<hello::AddOp> {
+class AddOpLowering : public OpRewritePattern<MxNet::AddOp> {
 public:
-  using OpRewritePattern<hello::AddOp>::OpRewritePattern;
+  using OpRewritePattern<MxNet::AddOp>::OpRewritePattern;
 
-  LogicalResult matchAndRewrite(hello::AddOp op,
+  LogicalResult matchAndRewrite(MxNet::AddOp op,
                                 PatternRewriter &rewriter) const override {
     // Fetch operands
     Value lhs = op.getLhs();
@@ -120,17 +120,17 @@ public:
 void LowerToTosaPass::runOnOperation() {
   mlir::ConversionTarget target(getContext());
 
-  target.addIllegalDialect<hello::HelloDialect>();
+  target.addIllegalDialect<MxNet::MxNetDialect>();
   target.addLegalDialect<mlir::affine::AffineDialect, mlir::BuiltinDialect,
                          mlir::func::FuncDialect, mlir::arith::ArithDialect,
                          mlir::memref::MemRefDialect, mlir::tosa::TosaDialect,
                          mlir::tensor::TensorDialect>();
-  target.addDynamicallyLegalOp<hello::PrintOp>([](hello::PrintOp op) {
+  target.addDynamicallyLegalOp<MxNet::PrintOp>([](MxNet::PrintOp op) {
     return llvm::none_of(op->getOperandTypes(), [](mlir::Type type) {
       return mlir::isa<mlir::TensorType>(type);
     });
   });
-  target.addLegalOp<hello::WorldOp>();
+  target.addLegalOp<MxNet::WorldOp>();
 
   mlir::RewritePatternSet patterns(&getContext());
   patterns.add<AddOpLowering, AbsOpLowering, ReciprocalSqrtOpLowering>(
@@ -142,6 +142,6 @@ void LowerToTosaPass::runOnOperation() {
   }
 }
 
-std::unique_ptr<mlir::Pass> hello::createLowerToTosaPass() {
+std::unique_ptr<mlir::Pass> MxNet::createLowerToTosaPass() {
   return std::make_unique<LowerToTosaPass>();
 }
