@@ -133,10 +133,8 @@ void LowerToTosaPass::runOnOperation() {
   target.addLegalOp<hello::WorldOp>();
 
   mlir::RewritePatternSet patterns(&getContext());
-  patterns.add<AddOpLowering>(&getContext());
-  patterns.add<AbsOpLowering>(&getContext());
-  patterns.add<ReciprocalSqrtOpLowering>(&getContext());
-  // patterns.add<MulOpLowering>(&getContext());
+  patterns.add<AddOpLowering, AbsOpLowering, ReciprocalSqrtOpLowering>(
+      &getContext());
 
   if (mlir::failed(mlir::applyPartialConversion(getOperation(), target,
                                                 std::move(patterns)))) {
