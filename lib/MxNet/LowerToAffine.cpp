@@ -127,20 +127,6 @@ class ConstantOpLowering : public mlir::OpRewritePattern<MxNet::ConstantOp> {
   }
 };
 
-class PrintOpLowering : public mlir::OpConversionPattern<MxNet::PrintOp> {
-  using OpConversionPattern<MxNet::PrintOp>::OpConversionPattern;
-
-  mlir::LogicalResult
-  matchAndRewrite(MxNet::PrintOp op, OpAdaptor adaptor,
-                  mlir::ConversionPatternRewriter &rewriter) const final {
-    // We don't lower "MxNet.print" in this pass, but we need to update its
-    // operands.
-    rewriter.modifyOpInPlace(op,
-                             [&] { op->setOperands(adaptor.getOperands()); });
-    return mlir::success();
-  }
-};
-
 namespace {
 class MxNetToAffineLowerPass
     : public mlir::PassWrapper<MxNetToAffineLowerPass,
@@ -164,15 +150,9 @@ void MxNetToAffineLowerPass::runOnOperation() {
   target.addLegalDialect<mlir::affine::AffineDialect, mlir::BuiltinDialect,
                          mlir::func::FuncDialect, mlir::arith::ArithDialect,
                          mlir::memref::MemRefDialect>();
-  target.addDynamicallyLegalOp<MxNet::PrintOp>([](MxNet::PrintOp op) {
-    return llvm::none_of(op->getOperandTypes(), [](mlir::Type type) {
-      return mlir::isa<mlir::TensorType>(type);
-    });
-  });
-  target.addLegalOp<MxNet::WorldOp>();
 
   mlir::RewritePatternSet patterns(&getContext());
-  patterns.add<ConstantOpLowering, PrintOpLowering>(&getContext());
+  patterns.add<ConstantOpLowering>(&getContext());
 
   if (mlir::failed(mlir::applyPartialConversion(getOperation(), target,
                                                 std::move(patterns)))) {
