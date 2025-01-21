@@ -125,12 +125,6 @@ void LowerToTosaPass::runOnOperation() {
                          mlir::func::FuncDialect, mlir::arith::ArithDialect,
                          mlir::memref::MemRefDialect, mlir::tosa::TosaDialect,
                          mlir::tensor::TensorDialect>();
-  target.addDynamicallyLegalOp<MxNet::PrintOp>([](MxNet::PrintOp op) {
-    return llvm::none_of(op->getOperandTypes(), [](mlir::Type type) {
-      return mlir::isa<mlir::TensorType>(type);
-    });
-  });
-  target.addLegalOp<MxNet::WorldOp>();
 
   mlir::RewritePatternSet patterns(&getContext());
   patterns.add<AddOpLowering, AbsOpLowering, ReciprocalSqrtOpLowering>(

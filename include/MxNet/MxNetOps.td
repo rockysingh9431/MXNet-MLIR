@@ -29,27 +29,6 @@ def ConstantOp : MxNet_Op<"constant", [Pure]> {
   let results = (outs F64Tensor);
 }
 
-def PrintOp : MxNet_Op<"print", [Pure]> {
-    let summary = "print operation";
-    let description = [{
-        The "print" builtin operation prints a given input tensor, and produces
-        no results.
-    }];
-
-    // The print operation takes an input tensor to print.
-    let arguments = (ins AnyTypeOf<[F64Tensor, F64MemRef]>:$input);
-
-    let assemblyFormat = "$input attr-dict `:` type($input)";
-}
-
-def WorldOp : MxNet_Op<"world", [Pure]> {
-    let summary = "print Hello, World";
-    let description = [{
-        The "world" operation prints "Hello, World", and produces
-        no results.
-    }];
-}
-
 def AddOp : MxNet_Op<"add",[Pure]>{
   let summary="add two tensors element-wise";
   let description=[{
