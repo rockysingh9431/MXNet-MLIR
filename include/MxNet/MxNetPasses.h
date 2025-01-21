@@ -24,7 +24,7 @@
 
 namespace MxNet {
 std::unique_ptr<mlir::Pass> createLowerToTosaPass();
-std::unique_ptr<mlir::Pass> createLowerToAffinePass();
+// std::unique_ptr<mlir::Pass> createLowerToAffinePass();
 std::unique_ptr<mlir::Pass> createLowerToLLVMPass();
 } // namespace MxNet
 

@@ -37,17 +37,9 @@ void MxNetDialect::initialize() {
       >();
 }
 
-void MxNet::ConstantOp::build(mlir::OpBuilder &builder,
-                              mlir::OperationState &state, double value) {
-  auto dataType = RankedTensorType::get({}, builder.getF64Type());
-  auto dataAttribute = DenseElementsAttr::get(dataType, value);
-  MxNet::ConstantOp::build(builder, state, dataType, dataAttribute);
-}
-
 mlir::Operation *MxNetDialect::materializeConstant(mlir::OpBuilder &builder,
                                                    mlir::Attribute value,
                                                    mlir::Type type,
                                                    mlir::Location loc) {
-  return builder.create<MxNet::ConstantOp>(
-      loc, type, mlir::cast<mlir::DenseElementsAttr>(value));
+  return nullptr;
 }

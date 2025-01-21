@@ -1,8 +1,6 @@
 add_mlir_dialect_library(MLIRMxNet
 		MxNetDialect.cpp
 		MxNetOps.cpp
-		LowerToAffine.cpp
-		LowerToLLVM.cpp
 		LowerToTOSA.cpp
 
         ADDITIONAL_HEADER_DIRS

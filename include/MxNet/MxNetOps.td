@@ -4,31 +4,6 @@
 include "MxNetDialect.td"
 include "mlir/Interfaces/SideEffectInterfaces.td"
 
-def ConstantOp : MxNet_Op<"constant", [Pure]> {
-  let summary = "constant";
-  let description = [{
-    Constant operation turns a literal into an SSA value. The data is attached
-    to the operation as an attribute. For example:
-
-    ```mlir
-      %0 = "MxNet.constant"()
-      { value = dense<[[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]> : tensor<2x3xf64> }
-      : () -> tensor<2x3xf64>
-    ```
-  }];
-
-  let builders = [
-    OpBuilder<(ins "mlir::DenseElementsAttr":$value), [{
-      build($_builder, $_state, value.getType(), value);
-    }]>,
-    OpBuilder<(ins "double":$value)>
-  ];
-
-//  let parser = [{ return ::parseConstantOp(parser, result); }];
-  let arguments = (ins F64ElementsAttr:$value);
-  let results = (outs F64Tensor);
-}
-
 def AddOp : MxNet_Op<"add",[Pure]>{
   let summary="add two tensors element-wise";
   let description=[{
