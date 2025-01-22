@@ -171,7 +171,7 @@ int main(int argc, char **argv) {
     return error;
   }
 
-  // dumpLLVMIR(*module);
+    // dumpLLVMIR(*module);
   //  runJit(*module);
 
   return 0;
