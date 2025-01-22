@@ -1,6 +1,6 @@
 # MLIR MXNet Dialect
 
-This is the minimal example to look into the way to implement the MxNet toolkit kind of program with MLIR. The basic code structure is borrowed from [standalone](https://github.com/llvm/llvm-project/tree/main/mlir/examples/standalone) and [Toy language](https://github.com/llvm/llvm-project/tree/main/mlir/examples/toy) in LLVM project.
+This is the minimal example to look into the way to implement the MxNet toolkit kind of program with MLIR. The basic code structure is borrowed from [mlir-hello](https://github.com/Lewuathe/mlir-hello) and [Toy language](https://github.com/llvm/llvm-project/tree/main/mlir/examples/toy) in LLVM project.
 
 We constantly check the compatibility with the latest LLVM/MLIR in [the nightly build](https://github.com/Lewuathe/mlir-MxNet/actions/workflows/nightly-build.yml). The status of the build is shown in the badge above.
 
