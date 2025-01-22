@@ -36,10 +36,3 @@ void MxNetDialect::initialize() {
 #include "MxNet/MxNetOps.cpp.inc"
       >();
 }
-
-mlir::Operation *MxNetDialect::materializeConstant(mlir::OpBuilder &builder,
-                                                   mlir::Attribute value,
-                                                   mlir::Type type,
-                                                   mlir::Location loc) {
-  return nullptr;
-}

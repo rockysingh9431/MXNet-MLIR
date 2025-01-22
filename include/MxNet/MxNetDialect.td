@@ -15,7 +15,6 @@ def MxNet_Dialect : Dialect {
         for MLIR.
     }];
     let cppNamespace = "::MxNet";
-    let hasConstantMaterializer = 1;
 }
 
 //===----------------------------------------------------------------------===//

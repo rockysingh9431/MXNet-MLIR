@@ -122,7 +122,7 @@ int loadAndProcessMLIR(mlir::MLIRContext &context,
   if (mlir::failed(passManager.run(*module))) {
     return 4;
   }
-
+  module->print(llvm::outs());
   return 0;
 }
 
