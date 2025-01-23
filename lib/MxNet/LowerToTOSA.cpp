@@ -32,7 +32,7 @@ public:
 
     // Ensure operand has compatible types
     auto resultType = op.getType();
-    if (!resultType.isa<TensorType>()) {
+    if (!isa<TensorType>(resultType)) {
       return rewriter.notifyMatchFailure(op, "Expected TensorType");
     }
 
@@ -54,19 +54,56 @@ public:
   LogicalResult matchAndRewrite(MxNet::AbsOp op,
                                 PatternRewriter &rewriter) const override {
     // Fetch operand
-    Value input = op.getInput();
+    // llvm::outs() << "AbsOpLowering " << op << "\n";
+    auto input = op.getInput();
 
     // Ensure operand has compatible types
     auto resultType = op.getType();
-    if (!resultType.isa<TensorType>()) {
+
+    // casting to TensorType to get the the functionality of getElementType
+    // inbuilt in the class TensorType
+    auto inputType = llvm::cast<TensorType>(input.getType());
+
+    auto elementType = inputType.getElementType();
+    // assert(elementType.isF32() && "Expected f32 element type");
+    if (!isa<TensorType>(resultType)) {
       return rewriter.notifyMatchFailure(op, "Expected TensorType");
     }
 
-    // Create a TOSA abs operation
-    auto tosaAbs = rewriter.create<tosa::AbsOp>(op.getLoc(), resultType, input);
+    Value castedInput = input;
+    if (!elementType.isF32()) {
+      // llvm::outs() << "Expected f32 element type, but received " <<
+      // elementType
+      //              << "\n";
+      // llvm::outs() << elementType << "\n";
+      // llvm::outs() << resultType << "\n";
+      // llvm::outs() << inputType << "\n";
+      // llvm::outs() << "input " << input << "\n";
 
+      // inbuilt in RankedTensorType::Builder
+      // operator RankedTensorType() {
+      //   return RankedTensorType::get(shape, elementType, encoding);
+      // }
+      auto f32TensorType =
+          RankedTensorType::get(inputType.getShape(), rewriter.getF32Type());
+      castedInput =
+          rewriter.create<tosa::CastOp>(op->getLoc(), f32TensorType, input);
+
+      if (!isa<TensorType>(castedInput.getType())) {
+        return rewriter.notifyMatchFailure(op, "Expected TensorType");
+      }
+      // llvm::outs() << "f32TensorType " << f32TensorType << "\n";
+      // llvm::outs() << "casted input " << castedInput << "\n";
+    }
+
+    // Create a TOSA abs operation
+    auto tosaAbs = rewriter.create<tosa::AbsOp>(
+        op.getLoc(), castedInput.getType(), castedInput);
+
+    auto output =
+        rewriter.create<tosa::CastOp>(op->getLoc(), inputType, tosaAbs);
     // Replace the original operation with the new TOSA operation
-    rewriter.replaceOp(op, tosaAbs);
+    rewriter.replaceOp(op, output);
 
     return success();
   }
@@ -85,7 +122,7 @@ public:
 
     // Ensure operands have compatible types
     auto resultType = op.getType();
-    if (!resultType.isa<TensorType>()) {
+    if (!isa<TensorType>(resultType)) {
       return rewriter.notifyMatchFailure(op, "Expected TensorType");
     }
 
