@@ -1,9 +1,12 @@
 // RUN: MxNet-opt %s | FileCheck %s
 
-func.func @abs(%tensorA:tensor<2x3xf64>)-> tensor<2x3xf64>{
-  //CHECK: %0 = tosa.abs %arg0 : (tensor<2x3xf64>) -> tensor<2x3xf64>
-  %result = "MxNet.abs"( %tensorA ) : ( tensor<2x3xf64>) -> tensor<2x3xf64>
-
-  // CHECK: %0 : tensor<2x3xf64>
-  return %result : tensor<2x3xf64>
+//CHECK-LABEL: func.func @abs_f16(%arg0: tensor<2x3xf16>) -> tensor<2x3xf16> {
+//CHECK-NEXT: %0 = tosa.cast %arg0 : (tensor<2x3xf16) -> tensor<2x3xf32>
+//CHECK-NEXT: %1 = tosa.abs %0 : (tensor<2x3xf32>) -> tensor<2x3xf32>
+//CHECK-NEXT: %2 = tosa.cast %1 : (tensor<2x3xf32>) -> tensor<2x3xf16>
+//CHECK-NEXT: %2 : tensor<2x3xf16>
+//CHECK-NEXT: }
+func.func @abs_f16(%tensorA:tensor<2x3xf16>)-> tensor<2x3xf16>{
+  %result = "MxNet.abs"( %tensorA ) : ( tensor<2x3xf16>) -> tensor<2x3xf16>
+  return %result : tensor<2x3xf16>
 }
